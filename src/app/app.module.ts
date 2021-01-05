@@ -19,7 +19,7 @@ import { environment } from '../environments/environment';
     BrowserModule,
     AppRoutingModule,
     AgmCoreModule.forRoot({
-      apiKey: ''
+      apiKey: 'AIzaSyA0B6tllChtrEQVKbJ72LWFq5IRy1qN3u0'
     }),
     AngularFireModule.initializeApp(environment.firebaseConfig),
     FormsModule      
