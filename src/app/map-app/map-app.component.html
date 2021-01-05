@@ -1,0 +1,50 @@
+
+
+
+<form class=" text-center" [ngClass]="status ? 'form-in' : 'form-out'">
+      <div class="form-group">
+          <label>Government Name</label>
+          <select name="GovName" [(ngModel)]="GovName" class="form-control ">
+              <option (click)='getAllGovs()'>Select All</option>
+              <option *ngFor="let GovName of GovNameList" (click)='GetAllCustomers()'>{{GovName}}</option>
+          </select>
+      </div>
+      <div class="icon-form" (click)="clickEvent()">
+        <i class="fas fa-cog"  [ngClass]="spin ? 'fa-spin' : '' "></i>
+      </div>
+</form>
+
+<agm-map  [latitude]="lat" [longitude]="lng" >
+
+    <agm-marker 
+      *ngFor="let m of markers; let i = index"
+      (markerClick)="clickedMarker(m.label, i)"
+      [latitude]="m.lat"
+      [longitude]="m.lon"
+      [label]="m.label"
+      (dragEnd)="markerDragEnd(m, $event)"
+      [iconUrl]="m.icon"
+      >
+
+      <agm-info-window>
+        
+        <table>
+          <thead>
+            <th>ID</th>
+            <th>Name</th>
+          </thead>
+          <hr>
+          <tbody>
+            <tr>
+              <td>{{m.id}}</td>
+              <td>{{m.name}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </agm-info-window>
+      
+    </agm-marker>
+
+</agm-map>
+
