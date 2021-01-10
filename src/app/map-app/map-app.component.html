@@ -4,9 +4,11 @@
 <form class=" text-center" [ngClass]="status ? 'form-in' : 'form-out'">
       <div class="form-group">
           <label>Government Name</label>
-          <select name="GovName" [(ngModel)]="GovName" class="form-control ">
-              <option (click)='getAllGovs()'>Select All</option>
-              <option *ngFor="let GovName of GovNameList" (click)='GetAllCustomers()'>{{GovName}}</option>
+          <select name="GovName" [(ngModel)]="GovName" class="form-control " (change)='onchangeValueSelect()'>
+              <option value="D1">D1</option>
+              <option value="D2">D2</option>
+              <option value="D3">D3</option>
+              <option value="Farm">Farm</option>
           </select>
       </div>
       <div class="icon-form" (click)="clickEvent()">

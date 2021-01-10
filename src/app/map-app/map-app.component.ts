@@ -77,76 +77,97 @@ oneFieldSearch (fieldName, fieldVal) {
      })
   })
 }
-
-getAllGovs(){
-  let GovIcon : [];
-  this.realTimedb.database.ref('Wadi-Map/D1').once("value", data => {
-    Object.values(data.val()).forEach(doc => {
-      if (!this.GovNameList.includes(doc['gov'])) {
-        this.GovNameList.sort().push(doc['gov'])
-      }
-    })
-
-  }).then(()=>{
-    this.realTimedb.database.ref("Wadi-Map/GovIcon").once('value',data2=>{
-      GovIcon=data2.val()
-    }).then(()=>{
-      this.realTimedb.database.ref("Wadi-Map/D1").once('value', data =>{
-        for (const [key, value] of Object.entries(data.val())){ 
-    if(typeof GovIcon[value['gov']]!="undefined"){
-      value['icon']= {
-        url: GovIcon[value['gov']]['url'],scaledSize: {
-          width: 35,
-          height: 40
-        }
-      }
-    }else{
-      value['icon']= {
-        url: 'http://developerdrive.developerdrive.netdna-cdn.com/wp-content/uploads/2013/08/ddrive.png',
-      }
+marker :Marker ={}
+getAllGovs(UserType){
+  this.markers=[]
+  this.realTimedb.database.ref('Wadi-Map/'+UserType).once("value", data => {
+    for (const [key, value] of Object.entries(data.val())){ 
+      this.marker.name=value.toString().substring(0,value.toString().indexOf("*")-1)
+      this.marker.lat=value.toString().substring(value.toString().indexOf("*")+1,value.toString().indexOf("-"))
+      this.marker.lon=value.toString().substring(value.toString().indexOf("-")+1,value.toString().length)
+      console.log(this.marker)
+     this.marker.id=parseInt(key)
+      this.markers.push(this.marker);
+      this.marker={}
     }
-        this.markers.push(value);
-        }
-       })
-    })
-  })
+})
+
+
+
+
+
+  // let GovIcon : [];
+  // this.realTimedb.database.ref('Wadi-Map/D1').once("value", data => {
+  //   Object.values(data.val()).forEach(doc => {
+  //     if (!this.GovNameList.includes(doc['gov'])) {
+  //       this.GovNameList.sort().push(doc['gov'])
+  //     }
+  //   })
+
+  // }).then(()=>{
+  //   this.realTimedb.database.ref("Wadi-Map/GovIcon").once('value',data2=>{
+  //     GovIcon=data2.val()
+  //   }).then(()=>{
+  //     this.realTimedb.database.ref("Wadi-Map/D1").once('value', data =>{
+  //       for (const [key, value] of Object.entries(data.val())){ 
+  //   if(typeof GovIcon[value['gov']]!="undefined"){
+  //     value['icon']= {
+  //       url: GovIcon[value['gov']]['url'],scaledSize: {
+  //         width: 35,
+  //         height: 40
+  //       }
+  //     }
+  //   }else{
+  //     value['icon']= {
+  //       url: 'http://developerdrive.developerdrive.netdna-cdn.com/wp-content/uploads/2013/08/ddrive.png',
+  //     }
+  //   }
+  //       this.markers.push(value);
+  //       }
+  //      })
+  //   })
+  // })
 }
 
+onchangeValueSelect(){
+  this.getAllGovs(this.GovName)
+}
+  ngOnInit() {
+    this.getAllGovs("D1")
+  //   let GovIcon : [];
+  //   this.realTimedb.database.ref('Wadi-Map/D1').once("value", data => {
+  //     Object.values(data.val()).forEach(doc => {
+  //       if (!this.GovNameList.includes(doc['gov'])) {
+  //         this.GovNameList.sort().push(doc['gov'])
+  //       }
+  //     })
 
-  ngOnInit(): void {
-    let GovIcon : [];
-    this.realTimedb.database.ref('Wadi-Map/D1').once("value", data => {
-      Object.values(data.val()).forEach(doc => {
-        if (!this.GovNameList.includes(doc['gov'])) {
-          this.GovNameList.sort().push(doc['gov'])
-        }
-      })
-
-    }).then(()=>{
-      this.realTimedb.database.ref("Wadi-Map/GovIcon").once('value',data2=>{
-        GovIcon=data2.val()
-      }).then(()=>{
-        this.realTimedb.database.ref("Wadi-Map/D1").once('value', data =>{
-          for (const [key, value] of Object.entries(data.val())){ 
-        if(typeof GovIcon[value['gov']]!="undefined"){
-          value['icon']= {
-            url: GovIcon[value['gov']]['url'],scaledSize: {
-              width: 35,
-              height: 40
-            }
-          }
-      }else{
-        value['icon']= {
-          url: 'http://developerdrive.developerdrive.netdna-cdn.com/wp-content/uploads/2013/08/ddrive.png',
-        }
-      }
+  //   }).then(()=>{
+  //     this.realTimedb.database.ref("Wadi-Map/GovIcon").once('value',data2=>{
+  //       GovIcon=data2.val()
+  //     }).then(()=>{
+  //       this.realTimedb.database.ref("Wadi-Map/D1").once('value', data =>{
+  //         for (const [key, value] of Object.entries(data.val())){ 
+  //       if(typeof GovIcon[value['gov']]!="undefined"){
+  //         value['icon']= {
+  //           url: GovIcon[value['gov']]['url'],scaledSize: {
+  //             width: 35,
+  //             height: 40
+  //           }
+  //         }
+  //     }else{
+  //       value['icon']= {
+  //         url: 'http://developerdrive.developerdrive.netdna-cdn.com/wp-content/uploads/2013/08/ddrive.png',
+  //       }
+  //     }
           
-          this.markers.push(value);
+  //         this.markers.push(value);
         
-          }
-         })
-      })
-    })
+  //         }
+  //        })
+  //     })
+  //   })
   }
+
 
 }
