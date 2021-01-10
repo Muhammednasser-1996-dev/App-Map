@@ -87,6 +87,51 @@ getAllGovs(UserType){
       this.marker.lon=value.toString().substring(value.toString().indexOf("-")+1,value.toString().length)
       console.log(this.marker)
      this.marker.id=parseInt(key)
+     if(UserType == "D1"){
+      this.marker['icon']= {
+              url: '../../assets/1.png',
+              scaledSize: {
+                        width: 15,
+                        height: 15
+                      }
+            }
+     }
+     if(UserType == "D2"){
+      this.marker['icon']= {
+              url: '../../assets/2.png',
+              scaledSize: {
+                        width: 15,
+                        height: 15
+                      }
+            }
+     }
+     if(UserType == "D2"){
+      this.marker['icon']= {
+              url: '../../assets/2.png',
+              scaledSize: {
+                        width: 15,
+                        height: 15
+                      }
+            }
+     }
+     if(UserType == "D3"){
+      this.marker['icon']= {
+              url: '../../assets/3.png',
+              scaledSize: {
+                        width: 15,
+                        height: 15
+                      }
+            }
+     }
+     if(UserType == "Farm"){
+      this.marker['icon']= {
+              url: '../../assets/6.png',
+              scaledSize: {
+                        width: 15,
+                        height: 15
+                      }
+            }
+     }
       this.markers.push(this.marker);
       this.marker={}
     }
@@ -133,7 +178,68 @@ onchangeValueSelect(){
   this.getAllGovs(this.GovName)
 }
   ngOnInit() {
-    this.getAllGovs("D1")
+    let index=0;
+    this.realTimedb.database.ref('Wadi-Map').once("value", data => {
+      for (const [key2, value2] of Object.entries(data.val())) {
+   console.log(key2)
+        
+      for (const [key, value] of Object.entries(value2)){ 
+        this.marker.name=value.toString().substring(0,value.toString().indexOf("*"))
+        this.marker.lat=value.toString().substring(value.toString().indexOf("*")+1,value.toString().indexOf("-"))
+        this.marker.lon=value.toString().substring(value.toString().indexOf("-")+1,value.toString().length)
+       console.log(this.marker)
+       this.marker.id=parseInt(key)
+       if(key2 == "D1"){
+        this.marker['icon']= {
+                url: '../../assets/1.png',
+                scaledSize: {
+                          width: 15,
+                          height: 15
+                        }
+              }
+       }
+       if(key2== "D2"){
+        this.marker['icon']= {
+                url: '../../assets/2.png',
+                scaledSize: {
+                          width: 15,
+                          height: 15
+                        }
+              }
+       }
+       if(key2 == "D2"){
+        this.marker['icon']= {
+                url: '../../assets/2.png',
+                scaledSize: {
+                          width: 15,
+                          height: 15
+                        }
+              }
+       }
+       if(key2 == "D3"){
+        this.marker['icon']= {
+                url: '../../assets/3.png',
+                scaledSize: {
+                          width: 15,
+                          height: 15
+                        }
+              }
+       }
+       if(key2 == "Farm"){
+        this.marker['icon']= {
+                url: '../../assets/6.png',
+                scaledSize: {
+                          width: 15,
+                          height: 15
+                        }
+              }
+       }
+        this.markers.push(this.marker);
+        this.marker={}
+      }
+    }
+  })
+
   //   let GovIcon : [];
   //   this.realTimedb.database.ref('Wadi-Map/D1').once("value", data => {
   //     Object.values(data.val()).forEach(doc => {
